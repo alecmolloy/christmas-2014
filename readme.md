@@ -3,10 +3,17 @@
 ## User experience
 Take a selfy with Alec at various London locations.
 
-- Live video
-- 
-- Snow particles
+### Critical
+- Live video mapped to user's face
+- Recorded video of Alec's face
+- Message to adjust your camera
+- Bodies for both people
+- Environments from around London
+- Intuitive camera controls
 
+### Nice to have
+- Snow particles
+- Stella Tran mode
 
 
 ## Technical requirements

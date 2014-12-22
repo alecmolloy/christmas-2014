@@ -1,5 +1,6 @@
 var container, scene, camera, renderer, controls, stats;
-var video, videoImage, videoImageContext, videoTexture;
+var userVideo, userVideoImage, userVideoImageContext, userVideoTexture;
+var alecVideo, alecVideoImage, alecVideoImageContext, alecVideoTexture;
 window.onload = function () {
     init();
     animate();
@@ -46,12 +47,12 @@ function init() {
 
     // Sky
     var skyUrl = [
-        "img/sky-right.jpg",
-        "img/sky-left.jpg",
-        "img/sky-top.jpg",
-        "img/sky-bottom.jpg",
-        "img/sky-front.jpg",
-        "img/sky-back.jpg",
+        "assets/sky-right.jpg",
+        "assets/sky-left.jpg",
+        "assets/sky-top.jpg",
+        "assets/sky-bottom.jpg",
+        "assets/sky-front.jpg",
+        "assets/sky-back.jpg",
     ];
     var skyGeometry = new THREE.CubeGeometry(10000, 10000, 10000);
 
@@ -71,54 +72,71 @@ function init() {
     //    scene.fog = new THREE.FogExp2(0x9999ff, 0.00025);
 
     ///////////
-    // VIDEO //
+    // Faces //
     ///////////
 
-    video = document.getElementById('camvideo');
+    userVideo = document.getElementById('uservideo');
 
-    videoImage = document.getElementById('camcanvas');
-    videoImageContext = videoImage.getContext('2d');
-    // background color if no video present
-    videoImageContext.fillStyle = '#acf2ff';
-    videoImageContext.fillRect(0, 0, videoImage.width, videoImage.height);
+    userVideoImage = document.getElementById('usercanvas');
+    userVideoImageContext = userVideoImage.getContext('2d');
+    userVideoImageContext.fillRect(0, 0, userVideoImage.width, userVideoImage.height);
 
-    videoTexture = new THREE.Texture(videoImage);
-    videoTexture.minFilter = THREE.LinearFilter;
-    videoTexture.magFilter = THREE.LinearFilter;
+    userVideoTexture = new THREE.Texture(userVideoImage);
+    userVideoTexture.minFilter = THREE.LinearFilter;
+    userVideoTexture.magFilter = THREE.LinearFilter;
 
-    var movieMaterial = new THREE.MeshBasicMaterial({
-        map: videoTexture,
+    var userVideoMaterial = new THREE.MeshBasicMaterial({
+        map: userVideoTexture,
         overdraw: true,
         side: THREE.DoubleSide
     });
-    // the geometry on which the movie will be displayed;
-    // 		movie image will be scaled to fit these dimensions.
 
-    //    var movieGeometry = new THREE.PlaneGeometry(133 * 10, 100 * 10, 1, 1);
-    //    var movieScreen = new THREE.Mesh(movieGeometry, movieMaterial);
-
-    var movieGeometry = new THREE.SphereGeometry(500, 150, 120);
-    movieGeometry.applyMatrix( new THREE.Matrix4().makeScale( 1.0, 1.5, 1.2 ) );
-    var movieScreen = new THREE.Mesh(movieGeometry, movieMaterial);
-    movieScreen.position.set(0, 50, 0);
-    scene.add(movieScreen);
+    var userVideoGeometry = new THREE.SphereGeometry(500, 150, 120);
+    userVideoGeometry.applyMatrix(new THREE.Matrix4().makeScale(1.0, 1.5, 1.2));
+    var userVideoScreen = new THREE.Mesh(userVideoGeometry, userVideoMaterial);
+    userVideoScreen.position.set(0, 50, -650);
+    scene.add(userVideoScreen);
 
 
 
+    alecVideo = document.getElementById('alecvideo');
+
+    alecVideoImage = document.getElementById('aleccanvas');
+    alecVideoImageContext = alecVideoImage.getContext('2d');
+    alecVideoImageContext.fillRect(0, 0, alecVideoImage.width, alecVideoImage.height);
+
+    alecVideoTexture = new THREE.Texture(alecVideoImage);
+    alecVideoTexture.minFilter = THREE.LinearFilter;
+    alecVideoTexture.magFilter = THREE.LinearFilter;
+
+    var alecVideoMaterial = new THREE.MeshBasicMaterial({
+        map: alecVideoTexture,
+        overdraw: true,
+        side: THREE.DoubleSide
+    });
+
+    var alecVideoGeometry = new THREE.SphereGeometry(500, 150, 120);
+    alecVideoGeometry.applyMatrix(new THREE.Matrix4().makeScale(1.0, 1.5, 1.2));
+    var alecVideoScreen = new THREE.Mesh(alecVideoGeometry, alecVideoMaterial);
+    alecVideoScreen.position.set(0, 50, 650);
+    scene.add(alecVideoScreen);
 
 
-    camera.position.set(3000, 1500, 0);
-    camera.lookAt(movieScreen.position);
+
+
+
+    camera.position.set(3000, 0, 0);
+    camera.lookAt(new THREE.Vector3(0, 0, 0));
 
 
 }
 
 
-// Requires a canvas with ID #canvas and a video with ID #camVideo
 navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 window.URL = window.URL || window.webkitURL;
 
-var camVideo = document.getElementById('camvideo');
+var userVideo = document.getElementById('uservideo');
+var alecVideo = document.getElementById('alecvideo');
 
 if (!navigator.getUserMedia) {
     // upload a photo instead
@@ -129,9 +147,9 @@ if (!navigator.getUserMedia) {
 }
 
 function gotStream(stream) {
-    camVideo.src = window.URL.createObjectURL(stream);
+    userVideo.src = window.URL.createObjectURL(stream);
 
-    camVideo.onerror = function (e) {
+    userVideo.onerror = function (e) {
         stream.stop();
     };
 }
@@ -153,10 +171,17 @@ function update() {
 }
 
 function render() {
-    if (video.readyState === video.HAVE_ENOUGH_DATA) {
-        videoImageContext.drawImage(video, 0, 0, videoImage.width, videoImage.height);
-        if (videoTexture)
-            videoTexture.needsUpdate = true;
+    if (alecVideo.readyState === alecVideo.HAVE_ENOUGH_DATA) {
+        alecVideoImageContext.drawImage(alecVideo, 0, 0, alecVideoImage.width, alecVideoImage.height);
+        if (alecVideoTexture)
+            alecVideoTexture.needsUpdate = true;
     }
+
+    if (userVideo.readyState === userVideo.HAVE_ENOUGH_DATA) {
+        userVideoImageContext.drawImage(userVideo, 0, 0, userVideoImage.width, userVideoImage.height);
+        if (userVideoTexture)
+            userVideoTexture.needsUpdate = true;
+    }
+
     renderer.render(scene, camera);
 }

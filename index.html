@@ -9,8 +9,10 @@
 
 
     <style>
-        #camcanvas,
-        #camvideo {
+        #uservideo,
+        #usercanvas,
+        #alecvideo,
+        #aleccanvas {
             display: none;
             visibility: hidden;
         }
@@ -24,8 +26,10 @@
 </head>
 
 <body>
-    <canvas id="camcanvas"></canvas>
-    <video id="camvideo" width="960" height="720" autoplay></video>
+    <video id="uservideo" width="640" height="480" autoplay></video>
+    <canvas id="usercanvas" width="640" height="480"></canvas>
+    <video id="alecvideo" src="assets/alecs-face.mp4" width="640" height="480" autoplay loop></video>
+    <canvas id="aleccanvas" width="640" height="480"></canvas>
     <div id="three-container"></div>
 
     <script type="text/javascript" src="http://use.typekit.net/irl3sjn.js"></script>
