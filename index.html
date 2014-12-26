@@ -12,7 +12,10 @@
         #uservideo,
         #usercanvas,
         #alecvideo,
-        #aleccanvas {
+        #aleccanvas,
+        #christmas-cover,
+        .wham,
+        #selfiecam {
             display: none;
             visibility: hidden;
         }
@@ -21,6 +24,53 @@
             margin: 0;
             height: 100%;
             width: 100%;
+            position: relative;
+        }
+        .grab {
+            cursor: move;
+            cursor: -moz-grab;
+            cursor: -webkit-grab;
+        }
+        .grabbing {
+            cursor: move;
+            cursor: -moz-grabbing;
+            cursor: -webkit-grabbing;
+        }
+        .button-takeselfie {
+            min-width: 150px;
+            border-radius: 3px;
+            height: 50px;
+            background-color: rgba(227, 80, 80, 0.98);
+            color: #fff;
+            border: none;
+            font: 600 normal 1.5em/1em"Comic Sans MS";
+            padding: 0 .75em;
+            text-transform: uppercase;
+            position: absolute;
+            bottom: 1em;
+            left: 1em;
+            z-index: 1;
+            cursor: pointer;
+        }
+        #tutorial {
+            border-radius: 3px;
+            color: #fff;
+            font-size: .8em;
+            background-color: rgba(61, 72, 201, 0.98);
+            max-width: 30em;
+            font-family: "Comic Sans MS", "Comic Sans", cursive;
+            padding: 0 1em;
+            margin: 1em;
+            position: absolute;
+            top: 0em;
+            left: 0em;
+            transition: 300ms ease-in-out 0 all;
+        }
+        #tutorial a {
+            color: #fff;
+        }
+        .fadeout {
+            opacity: 0;
         }
     </style>
 </head>
@@ -28,15 +78,61 @@
 <body>
     <video id="uservideo" width="640" height="480" autoplay></video>
     <canvas id="usercanvas" width="640" height="480"></canvas>
-    <video id="alecvideo" src="assets/alecs-face.mp4" width="640" height="480" autoplay loop></video>
-    <canvas id="aleccanvas" width="640" height="480"></canvas>
-    <div id="three-container"></div>
+    <video id="alecvideo" src="assets/alecs-face.mp4" width="640" height="426" autoplay loop>
+        <source src="assets/alecs-face.mp4" type="video/mp4">
+        <source src="assets/alecs-face.webm" type="video/webm">
+    </video>
+    <canvas id="aleccanvas" width="640" height="426"></canvas>
+    <div id="three-container" class="grab"></div>
+    <canvas id="selfiecam" width="640" height="640"></canvas>
 
-    <script type="text/javascript" src="http://use.typekit.net/irl3sjn.js"></script>
+    <button id="takeselfie" class="button-takeselfie">Take Selfie</button>
+    <img id="christmas-cover" src="assets/christmas-cover.png">
+        <iframe class="wham" width="100%" height="166" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F31496915&amp;color=ff6600&amp;auto_play=true&amp;show_artwork=false"></iframe>
+    <div id="tutorial">
+        <p>Welcome to <em>A Very Selfie Christmas, 2014.</em>
+        </p>
+        <p>Enable your webcam when asked. Use scroll wheel + click and drag to adjust view.</p>
+        <p>Make sure to share on Instagram, with #veryselfiechristmas2014.</p>
+        <p>If it doesn't work, please try refreshing, or using a desktop + webcam in Chrome.</p>
+        <p>I love you and I miss you very much. — <a href="http://twitter.com/alecmolloy">Alec</a>
+        </p>
+    </div>
     <script type="text/javascript" src="js/three.js"></script>
     <script type="text/javascript" src="js/THREEx.WindowResize.js"></script>
     <script type="text/javascript" src="js/OrbitControls.js"></script>
+    <script type="text/javascript" src="js/OBJLoader.js"></script>
     <script type="text/javascript" src="js/scene.js"></script>
+    <script>
+        var isActivated = false;
+        var tutorialBox = document.getElementById('tutorial');
+        function toggleTutorial(e) {
+            console.log(e.type);
+            if (!isActivated && e.type === 'mousedown') {
+                isActivated = true;
+                tutorialBox.setAttribute('class', 'fadeout');
+                tutorialBox.addEventListener('mouseenter', toggleTutorial);
+            } else if (tutorialBox.hasAttribute('class', 'fadeout') && e.type === 'mouseenter') {
+                isActivated = false;
+                tutorialBox.removeAttribute('class');
+            }
+        }
+
+
+        document.getElementById('three-container').addEventListener('mousedown', onMouseDown);
+        document.getElementById('three-container').addEventListener('mouseup', onMouseUp);
+
+        function onMouseDown(e) {
+            document.getElementById('three-container').removeAttribute('class');
+            document.getElementById('three-container').setAttribute('class', 'grabbing');
+            toggleTutorial(e);
+        }
+
+        function onMouseUp(e) {
+            document.getElementById('three-container').removeAttribute('class');
+            document.getElementById('three-container').setAttribute('class', 'grab');
+        }
+    </script>
 </body>
 
 </html>
