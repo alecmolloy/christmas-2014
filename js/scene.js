@@ -143,7 +143,7 @@ function init() {
 
     var manager1 = new THREE.LoadingManager();
     var loader1 = new THREE.ImageLoader(manager);
-    loader1.load('/assets/union-jack.jpg', function (image) {
+    loader1.load('assets/union-jack.jpg', function (image) {
 
         texture.image = image;
         texture.needsUpdate = true;
@@ -152,7 +152,7 @@ function init() {
 
     var manager2 = new THREE.LoadingManager();
     var loader2 = new THREE.ImageLoader(manager);
-    loader2.load('/assets/union-jack.jpg', function (image) {
+    loader2.load('assets/union-jack.jpg', function (image) {
 
         texture2.image = image;
         texture2.needsUpdate = true;
@@ -161,7 +161,7 @@ function init() {
 
 
     loader1 = new THREE.OBJLoader(manager);
-    loader1.load('/assets/female02.obj', function (object) {
+    loader1.load('assets/female02.obj', function (object) {
         object.traverse(function (child) {
             if (child instanceof THREE.Mesh) {
                 child.material.map = texture;
@@ -176,7 +176,7 @@ function init() {
     }, onProgress, onError);
 
     loader2 = new THREE.OBJLoader(manager);
-    loader2.load('/assets/male02.obj', function (object) {
+    loader2.load('assets/male02.obj', function (object) {
         object.traverse(function (child) {
             if (child instanceof THREE.Mesh) {
                 child.material.map = texture2;
