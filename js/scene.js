@@ -1,4 +1,4 @@
-var container, scene, camera, renderer, controls, stats, selfieCtx;
+var container, scene, camera, renderer, controls, stats, selfyCtx;
 var bodies;
 var userVideo, userVideoImage, userVideoImageContext, userVideoTexture, userVideoScreen;
 var alecVideo, alecVideoImage, alecVideoImageContext, alecVideoTexture, alecVideoScreen;
@@ -7,8 +7,8 @@ window.onload = function () {
     animate();
 };
 
-function saveSelfie() {
-    selfieCtx = document.getElementById('selfiecam').getContext('2d');
+function saveSelfy() {
+    selfyCtx = document.getElementById('selfycam').getContext('2d');
     var img = new Image();
     img.onload = function () {
         var smaller,
@@ -32,15 +32,15 @@ function saveSelfie() {
 
 
         // drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
-        selfieCtx.drawImage(img, (imgWidth / 2) - (smaller / 2), (imgHeight / 2) - (smaller / 2), smaller, smaller, 0, 0, 640, 640);
-        selfieCtx.drawImage(document.getElementById('christmas-cover'), 0, 0);
+        selfyCtx.drawImage(img, (imgWidth / 2) - (smaller / 2), (imgHeight / 2) - (smaller / 2), smaller, smaller, 0, 0, 640, 640);
+        selfyCtx.drawImage(document.getElementById('christmas-cover'), 0, 0);
 
 
-        selfieDataURL = document.getElementById('selfiecam').toDataURL('image/png');
+        selfyDataURL = document.getElementById('selfycam').toDataURL('image/png');
 
         var a = document.createElement('a');
-        a.href = selfieDataURL;
-        a.download = 'merry-chrimbus-selfie' + '.png';
+        a.href = selfyDataURL;
+        a.download = 'merry-chrimbus-selfy' + '.png';
         a.click();
     };
     img.src = renderer.domElement.toDataURL('image/png');
@@ -70,8 +70,8 @@ function init() {
     container.appendChild(renderer.domElement);
 
     // Save functionality
-    document.getElementById('takeselfie').addEventListener('click', function (e) {
-        saveSelfie();
+    document.getElementById('takeselfy').addEventListener('click', function (e) {
+        saveSelfy();
     });
 
 
